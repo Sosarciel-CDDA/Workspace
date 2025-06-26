@@ -1,4 +1,4 @@
-import { DataManager } from ""@sosarciel-cdda/event";
+import { DataManager } from "@sosarciel-cdda/event";
 import { BoolObj, Eoc, EocEffect, EocID, Spell } from "@sosarciel-cdda/schema";
 import { UNDef } from "./UNDefine";
 import { FULL_RECIVERY_EOCID, DESTORY_U_EOCID, CON_SPELL_FLAG } from "./BaseData";
@@ -21,23 +21,23 @@ const UniqueNpcID = (str:string)=>`UniqueNpcID_${str}`;
 export const eachCharEoc = (id:EocID,effectList:EocEffect[],cond?:BoolObj,forceId?:boolean)=>UNDef.genActEoc(id,[
     {math:['eachIndex','=','0']},
     {
-        run_eoc_until:{
+        run_eocs:{
             id:'EachNpcUntilInline',
             eoc_type:'ACTIVATION',
             effect:[
                 {u_message:"each <global_val:eachIndex>"},
                 {math:['eachIndex','+=','1']},
                 {set_string_var:UniqueNpcID(`<global_val:eachIndex>`),target_var:{context_val:'charidPtr'},parse_tags:true},
-                {run_eoc_with:{
+                {run_eocs:{
                     id:`${id}_runeocwithinline`,
                     eoc_type:'ACTIVATION',
                     effect:effectList
                 },
                 alpha_talker:{var_val:'charidPtr'}},
-            ]
+            ],
         },
+        iterations: {math:[UniqueNpcCountVarID]}
         //condition:{ math:['_eachIndex','<=',UniqueNpcCountVarID] },
-        iteration: {math:[UniqueNpcCountVarID]}
     }
 ],cond,forceId);
 
@@ -68,7 +68,7 @@ export async function buildNpcProtect(dm:DataManager){
 
     //传送到出生点
     const teleportToSpawn = UNDef.genActEoc('TeleportToSpawn',[
-        {run_eoc_with:{
+        {run_eocs:{
             id:`TeleportToSpawn_runeocwithinline`,
             eoc_type:'ACTIVATION',
             effect:[ {if:'u_is_character',then:[{run_eocs:[randTeleport.id]}]} ],

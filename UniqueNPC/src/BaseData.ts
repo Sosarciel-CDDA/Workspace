@@ -1,5 +1,5 @@
-import { DataManager } from ""@sosarciel-cdda/event";
-import { Eoc, Generic, Mutation, NpcClass, NpcInstance } from "@sosarciel-cdda/schema";
+import { DataManager } from "@sosarciel-cdda/event";
+import { Eoc, Item, Mutation, NpcClass, NpcInstance } from "@sosarciel-cdda/schema";
 import { UNDef } from "./UNDefine";
 import { JObject } from "@zwa73/utils";
 import { UNIQUE_NPC_MUTID } from "./Export";
@@ -71,9 +71,11 @@ const TestNpcInstance:NpcInstance={
     chat: "TALK_DONE",
 }
 /**生成器 */
-const TestNpcSpawner:Generic={
-    type:"GENERIC",
-    id:UNDef.genGenericID('TestNpcSpawner'),
+const TestNpcSpawner:Item={
+    type:"ITEM",
+    "//":"uncopy",
+    "//T":"GENERIC",
+    id:UNDef.genItemID('TestNpcSpawner'),
     name:{str_sp:`UniqueNpc测试生成器`},
     description:`生成一个 UniqueNpc`,
     use_action:{
