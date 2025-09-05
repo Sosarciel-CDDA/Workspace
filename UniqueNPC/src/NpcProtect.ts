@@ -1,5 +1,5 @@
 import { DataManager } from "@sosarciel-cdda/event";
-import { BoolObj, Eoc, EocEffect, EocID, Spell } from "@sosarciel-cdda/schema";
+import { BoolExpr, Eoc, EocEffect, EocID, Spell } from "@sosarciel-cdda/schema";
 import { UNDef } from "./UNDefine";
 import { FULL_RECIVERY_EOCID, DESTORY_U_EOCID, CON_SPELL_FLAG } from "./BaseData";
 import {JObject} from '@zwa73/utils';
@@ -18,7 +18,7 @@ const UniqueNpcCountVarID = "UniqueNpcCount";
 const UniqueNpcID = (str:string)=>`UniqueNpcID_${str}`;
 
 /**生成遍历npc的eoc */
-export const eachCharEoc = (id:EocID,effectList:EocEffect[],cond?:BoolObj,forceId?:boolean)=>UNDef.genActEoc(id,[
+export const eachCharEoc = (id:EocID,effectList:EocEffect[],cond?:BoolExpr,forceId?:boolean)=>UNDef.genActEoc(id,[
     {math:['eachIndex','=','0']},
     {
         run_eocs:{
