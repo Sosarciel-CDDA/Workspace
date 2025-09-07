@@ -6,6 +6,7 @@
         "./Enchantment",
         "./SmartNPC",
         "./CustomNPC",
-        "./UniqueNPC"
+        "./UniqueNPC",
+        "./UtilItem"
     ]
 }
