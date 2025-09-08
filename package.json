@@ -7,6 +7,6 @@
         "./SmartNPC",
         "./CustomNPC",
         "./UniqueNPC",
-        "./UtilItem"
+        "./UtilMisc"
     ]
 }
