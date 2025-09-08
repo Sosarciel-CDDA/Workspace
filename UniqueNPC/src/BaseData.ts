@@ -1,6 +1,6 @@
 import { DataManager } from "@sosarciel-cdda/event";
 import { Eoc, Item, Mutation, NpcClass, NpcInstance } from "@sosarciel-cdda/schema";
-import { UNDef } from "./UNDefine";
+import { UNDef } from "./Define";
 import { JObject } from "@zwa73/utils";
 import { UNIQUE_NPC_MUTID } from "./Export";
 

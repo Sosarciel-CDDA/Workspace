@@ -1,5 +1,5 @@
 import { DataManager } from "@sosarciel-cdda/event";
-import { DATA_PATH, OUT_PATH } from "./UNDefine";
+import { DATA_PATH, OUT_PATH } from "./Define";
 import { buildBaseData } from "./BaseData";
 import { buildNpcProtect } from "./NpcProtect";
 

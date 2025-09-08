@@ -1,6 +1,6 @@
 import { DataManager } from "@sosarciel-cdda/event";
 import { BoolExpr, Eoc, EocEffect, EocID, Spell } from "@sosarciel-cdda/schema";
-import { UNDef } from "./UNDefine";
+import { UNDef } from "./Define";
 import { FULL_RECIVERY_EOCID, DESTORY_U_EOCID, CON_SPELL_FLAG } from "./BaseData";
 import {JObject} from '@zwa73/utils';
 import { SPAWN_LOC_ID, UNIQUE_NPC_MUTID } from "./Export";
