@@ -82,7 +82,7 @@ const TestNpcSpawner:Item={
         type:"effect_on_conditions",
         description:`生成一个 UniqueNpc`,
         menu_text: `生成一个 UniqueNpc`,
-        effect_on_conditions:[UNDef.genEOCID('TestNpcSpawner')],
+        effect_on_conditions:[UNDef.genEocID('TestNpcSpawner')],
     },
     weight:1,
     volume:1,
@@ -92,7 +92,7 @@ const TestNpcSpawner:Item={
 const TestNpcSpawnerEoc: Eoc = {
     type: "effect_on_condition",
     eoc_type:"ACTIVATION",
-    id: UNDef.genEOCID('TestNpcSpawner'),
+    id: UNDef.genEocID('TestNpcSpawner'),
     effect: [
         {
             u_spawn_npc: TestNpcInstance.id,
@@ -104,7 +104,7 @@ const TestNpcSpawnerEoc: Eoc = {
 };
 
 /**完全回复EOC */
-export const FULL_RECIVERY_EOCID = UNDef.genEOCID("FullRecovery");
+export const FULL_RECIVERY_EOCID = UNDef.genEocID("FullRecovery");
 /**完全回复 */
 const FullRecivery: Eoc = {
     type: "effect_on_condition",

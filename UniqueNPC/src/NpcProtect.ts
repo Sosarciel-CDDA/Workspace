@@ -50,7 +50,7 @@ export async function buildNpcProtect(dm:DataManager){
 
 
     //递归随机传送
-    const randTeleportEocID = UNDef.genEOCID('RandTeleport');
+    const randTeleportEocID = UNDef.genEocID('RandTeleport');
     const randTeleport = UNDef.genActEoc(randTeleportEocID,[
         {u_location_variable:{context_val:'tmploc'}},
         {location_variable_adjust:{context_val:'tmploc'},
