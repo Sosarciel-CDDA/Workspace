@@ -25,7 +25,7 @@ const KillUEoc: Eoc = {
         {u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true},
         {u_teleport:{global_val:"tmp_loc"},force:true},
         {math:[`u_hp('ALL')`,'=','0']},
-        //{run_eoc_with:{
+        //{run_eocs:{
         //    id:"KillUFutureInline",
         //    eoc_type:'ACTIVATION',
         //    effect:[{
@@ -73,8 +73,8 @@ const TestNpcInstance:NpcInstance={
 /**生成器 */
 const TestNpcSpawner:Item={
     type:"ITEM",
-    "//":"uncopy",
-    "//T":"GENERIC",
+    "//copy": false,
+    "//GENERIC": true,
     id:UNDef.genItemID('TestNpcSpawner'),
     name:{str_sp:`UniqueNpc测试生成器`},
     description:`生成一个 UniqueNpc`,
@@ -84,8 +84,8 @@ const TestNpcSpawner:Item={
         menu_text: `生成一个 UniqueNpc`,
         effect_on_conditions:[UNDef.genEocID('TestNpcSpawner')],
     },
-    weight:1,
-    volume:1,
+    weight:`1 mg`,
+    volume:`1 ml`,
     symbol: "O"
 }
 /**生成器EOC */
