@@ -13,7 +13,7 @@
         },
         {
             "fileMatch": [
-                "SmartNPC/data/CastAI/**/*.json"
+                "SmartNPC/data/CastAI/**/*.json",
             ],
             "url": "./SmartNPC/schema/CastAIDataJsonTable.schema.json"
         },
@@ -28,5 +28,13 @@
     ],
     "js/ts.implicitProjectConfig.target": "ES2022",
     "js/ts.implicitProjectConfig.module": "CommonJS",
-    "typescript.tsdk": "./node_modules/typescript/lib"
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "json5.schemas": [
+        {
+            "fileMatch": [
+                "SmartNPC/data/CastAI/**/*.json5",
+            ],
+            "url": "./SmartNPC/schema/CastAIDataJsonTable.schema.json"
+        },
+    ]
 }
