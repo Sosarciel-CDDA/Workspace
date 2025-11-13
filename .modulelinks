@@ -19,3 +19,6 @@
 [submodule "WorldEditor"]
 	path = WorldEditor
 	url = https://github.com/Sosarciel-CDDA/WorldEditor.git
+[submodule "UtilMisc"]
+	path = UtilMisc
+	url = https://github.com/Sosarciel-CDDA/UtilMisc.git
