@@ -1,6 +1,10 @@
 {
     "json.schemas": [
         {
+            "fileMatch": ["Schema/src/Output/**/*.json"],
+            "url": "./Schema/schema/AnyCddaJsonList.schema.json"
+        },
+        {
             "fileMatch": ["CustomNPC/data/Chars/*/config.json"],
             "url": "./CustomNPC/schema/CharConfig.schema.json"
         },
