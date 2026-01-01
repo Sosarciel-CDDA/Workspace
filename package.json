@@ -8,5 +8,10 @@
         "./CustomNPC",
         "./UniqueNPC",
         "./UtilMisc"
-    ]
+    ],
+    "devDependencies": {
+        "@zwa73/dev-utils": "^1.0.93",
+        "ts-morph": "^23.0.0",
+        "typescript-json-schema": "^0.67.1"
+    }
 }
