@@ -8,7 +8,12 @@ import { buildNpcProtect } from "./NpcProtect";
 
 
 export async function build(){
-    const undm = new DataManager(DATA_PATH,OUT_PATH,"CNPCUNEF",{enableMoveStatus:false});
+    const undm = new DataManager({
+        dataPath:DATA_PATH,
+        outPath:OUT_PATH,
+        emPrefix:"CNPCUNEF",
+        hookOpt:{enableMoveStatus:false}
+    });
     await buildBaseData(undm);
     await buildNpcProtect(undm);
     await undm.saveAllData();
