@@ -22,6 +22,12 @@
             "url": "./SmartNPC/schema/CastAIDataJsonTable.schema.json"
         },
         {
+            "fileMatch": [
+                "Enchantment/data/Enchantment/**/*.json",
+            ],
+            "url": "./Enchantment/schema/EnchJsonTable.schema.json"
+        },
+        {
             "fileMatch": ["CustomMedia/data/Media/*/image/*.json"],
             "url": "./CustomMedia/schema/ImageInfo.schema.json"
         },
@@ -39,6 +45,12 @@
                 "SmartNPC/data/CastAI/**/*.json5",
             ],
             "url": "./SmartNPC/schema/CastAIDataJsonTable.schema.json"
+        },
+        {
+            "fileMatch": [
+                "Enchantment/data/Enchantment/**/*.json5",
+            ],
+            "url": "./Enchantment/schema/EnchJsonTable.schema.json"
         },
     ]
 }
