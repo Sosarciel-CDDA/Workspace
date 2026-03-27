@@ -41,6 +41,10 @@
     "typescript.tsdk": "./node_modules/typescript/lib",
     "json5.schemas": [
         {
+            "fileMatch": ["Schema/src/Output/**/*.json5"],
+            "url": "./Schema/schema/AnyCddaJsonList.schema.json"
+        },
+        {
             "fileMatch": [
                 "SmartNPC/data/CastAI/**/*.json5",
             ],
