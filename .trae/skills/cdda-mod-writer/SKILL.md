@@ -154,9 +154,95 @@ tsc --noEmit
 ```typescript
 type Item = GenericBase & AnyItemTrait;
 
-type ItemSubtype = "TOOL" | "ARMOR" | "GUN" | "AMMO" | "MAGAZINE" | 
-                   "COMESTIBLE" | "BOOK" | "BIONIC_ITEM" | ...;
+type ItemSubtype = "TOOL" | "ARMOR" | "GUN" | "AMMO" | "MAGAZINE" |
+                "COMESTIBLE" | "BOOK" | "BIONIC_ITEM" | ...;
 ```
+
+### Math表达式
+
+Math表达式是一种EocEffect,用于EOC中的数值计算和条件判断的**文本表达式**
+
+**重要限制**:
+- math字符串内部**不能调用EOC**或另一个BoolExpr/NumberExpr
+- 只能调用特殊常量和jmath定义的函数
+
+#### Talker前缀
+
+在math表达式中调用jmath函数或变量时，需要根据talker类型使用不同前缀：
+
+| Talker类型 | Math前缀 | EOC前缀 | 说明 |
+|-----------|---------|--------|------|
+| alpha_talker | `u_` | `u_` | 主角/玩家 |
+| beta_talker | `n_` | `npc_` | NPC/对话对象 |
+
+**注意**: beta_talker的前缀在math和EOC中**不同**！
+- Math中: `n_val('strength')`, `n_skill('driving')`
+- EOC Effect中: `{npc_has_effect:'eff'}`, `{ npc_location_variable: { global_val: tmpPos } }`
+
+#### 语法格式
+
+**赋值语句(3段式) (虽然支持一段式解析但3段式能获取更好的类型提示)**:
+```json
+{ "math": ["变量名", "操作符", "表达式"] }
+{ "math": ["u_val('strength')", "+=", "5"] }
+{ "math": ["_result", "=", "u_hp_max('torso') * 2"] }
+```
+
+**布尔表达式（单参数）**:
+```json
+{ "math": ["u_val('strength') >= 10"] }
+{ "math": ["distance('u', loc) <= 50"] }
+```
+
+#### 预定义的JMath函数 (JM命名空间)
+
+jmath是一种CDDA的json数据的type,可自行定义
+
+定义位置: `Schema/src/Schema/Eoc/Expression/DefineJMath.ts`
+
+常用函数:
+| 函数 | 说明 | 示例 |
+|-----|------|-----|
+| `u_armor(type, part)` | 获取护甲值 | `u_armor('bash', 'torso')` |
+| `u_speed()` | 获取移动速度 | `u_speed() >= 100` |
+| `u_health()` | 获取/设置生命值 | `u_health() -= 1` |
+| `u_pain()` | 获取/设置疼痛值 | `u_pain() >= 40` |
+| `u_skill(id)` | 获取/设置技能等级 | `u_skill('driving') >= 5` |
+| `u_val(aspect)` | 获取/设置属性值 | `u_val('strength')` |
+| `u_hp(part)` | 获取部位生命值 | `hp('torso') > 100` |
+| `u_hp_max(part)` | 获取部位最大生命值 | `u_hp_max('torso')` |
+| `distance(from, to)` | 计算两点距离 | `distance('u', loc)` |
+| `time(str)` | 获取时间数值 | `time('now')` |
+| `time_since(point)` | 获取经过时间 | `time_since(timer_var)` |
+| `has_var(name)` | 判断变量是否存在 | `has_var(my_var)` |
+| `has_trait(id)` | 判断是否有trait | `u_has_trait('FEEBLE')` |
+| `item_count(id)` | 获取物品数量 | `u_item_count('backpack')` |
+
+#### 预定义变量 (JMV命名空间)
+
+定义位置: `Schema/src/Schema/Eoc/Expression/DefineJMath.ts`
+
+通过 `u_val('变量名')` 或 `n_val('变量名')` 访问：
+
+| 变量 | 说明 | 可赋值 |
+|-----|------|-------|
+| `strength` / `dexterity` / `intelligence` / `perception` | 四大属性 | ✓ |
+| `focus` | 专注值 | ✓ |
+| `stamina` | 耐力值 | ✓ |
+| `mana` / `mana_max` | 法力值/最大法力 | ✓ / ✗ |
+| `power` / `power_max` | 电力值/最大电力 | ✓ / ✗ |
+| `rad` | 辐射值 | ✓ |
+| `hunger` / `thirst` | 饥饿/口渴 | ✗ |
+| `sleepiness` | 困倦程度 | ✓ |
+| `morale` | 士气值 | ✓ |
+| `cash` / `owed` / `sold` | 金钱相关 | ✓ |
+| `pos_x` / `pos_y` / `pos_z` | 当前坐标 | ✓ |
+| `age` / `height` | 年龄/身高 | ✓ |
+| `activity_level` | 活动等级(0-5) | ✗ |
+
+#### 数学函数
+
+数学函数如 `pow`, `log`, `sin`, `rand` 等**不在JM命名空间**中定义。如需使用数学函数，请查阅 `游戏目录/doc/NPCs.md` 文档。
 
 ## 示例：创建简单工具物品
 
@@ -177,34 +263,6 @@ const myTool: Item = {
     price_postapoc: "10 USD",
     material: ["steel", "plastic"],
     flags: ["WATERPROOF"]
-};
-```
-
-## 示例：创建怪物
-
-```typescript
-import type { Monster } from "@sosarciel-cdda/schema";
-
-const myMonster: Monster = {
-    type: "MONSTER",
-    id: "my_custom_monster",
-    name: "Custom Creature",
-    description: "A strange creature",
-    species: "ZOMBIE",
-    diff: 5,
-    bodytype: "human",
-    weight: 80000,
-    volume: 62500,
-    hp: 100,
-    speed: 80,
-    attack_cost: 100,
-    morale: 50,
-    armor_bash: 4,
-    armor_cut: 2,
-    vision_day: 40,
-    vision_night: 3,
-    symbol: "M",
-    color: "red"
 };
 ```
 
