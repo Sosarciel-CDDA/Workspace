@@ -158,6 +158,107 @@ type ItemSubtype = "TOOL" | "ARMOR" | "GUN" | "AMMO" | "MAGAZINE" |
                 "COMESTIBLE" | "BOOK" | "BIONIC_ITEM" | ...;
 ```
 
+### EOC (effect_on_condition)
+
+EOC是CDDA中用于触发条件效果的核心系统，可以理解为"当条件满足时执行效果"。
+
+定义位置: `Schema/src/Schema/Eoc/Eoc.ts`
+
+#### EOC基本结构
+
+```typescript
+type Eoc = {
+    type: "effect_on_condition";
+    id: EocID;                    // 唯一标识
+    condition?: BoolExpr;         // 启用条件
+    effect?: EocEffect[];         // 条件为真时执行的效果
+    false_effect?: EocEffect[];   // 条件为假时执行的效果
+} & EocTypeDefinition;            // 根据类型不同有不同字段
+```
+
+#### EOC类型
+
+| 类型 | 说明 | 特殊字段 |
+|-----|------|---------|
+| `RECURRING` | 循环触发 | `recurrence`(间隔), `global`, `run_for_npcs`, `deactivate_condition` |
+| `EVENT` | 事件触发 | `required_event`(触发事件) |
+| `ACTIVATION` | 被动触发 | - |
+| `SCENARIO_SPECIFIC` | 场景启动时调用一次 | - |
+| `AVATAR_DEATH` | 主角死亡时触发 | - |
+| `NPC_DEATH` | NPC死亡时触发 | - |
+
+#### 常用事件 (EocEvent)
+
+定义位置: `Schema/src/Schema/Eoc/EocEvent.ts`
+
+| 事件 | 触发时机 |
+|-----|---------|
+| `character_dies` | 角色死亡 |
+| `character_casts_spell` | 角色施法 |
+| `character_kills_monster` | 角色杀死怪物 |
+| `game_start` / `game_load` | 游戏开始/加载 |
+
+#### EocEffect效果类型
+
+EocEffect是EOC系统下的行为效果
+每一条Effect都要独占一个对象位,避免在一个{...}内写多条eoc,多条eoc应通过对象数组的形式放入允许EocEffectList或类似位置
+少数情况下存在字符串effect如"u_die"
+定义位置: `Schema/src/Schema/Eoc/EocEffect/EocEffectIndex.ts`
+
+**角色效果**:
+| 效果 | 说明 |
+|-----|------|
+| `AddEffect` / `LoseEffect` | 添加/移除状态效果 |
+| `AddTrait` / `LoseTrait` | 添加/移除特性 |
+| `CastSpell` | 施放法术 |
+| `Teleport` | 传送 |
+| `Message` | 显示消息 |
+
+**流程控制**:
+| 效果 | 说明 |
+|-----|------|
+| `RunEocs` | 运行其他EOC |
+| `IfCondition` | 条件判断 |
+| `ForEach` | 遍历循环 |
+| `MathAssignExp` | math赋值表达式 |
+
+#### 示例：循环EOC
+
+```typescript
+const recurringEoc: Eoc = {
+    type: "effect_on_condition",
+    id: "EOC_my_recurring",
+    eoc_type: "RECURRING",// 全局循环, 任何npc与玩家都会应用
+    recurrence: "1 h",  // 每小时触发
+    condition: { math: ["u_val('hunger') > 100"] },
+    effect: [ { math: ["u_val('stamina')", "-=", "10"] } ]
+};
+```
+
+#### 示例：事件EOC
+
+```typescript
+const eventEoc: Eoc = {
+    type: "effect_on_condition",
+    id: "EOC_on_eat",
+    eoc_type: "EVENT",
+    required_event: "character_eats_item",
+    effect: [ { math: ["u_val('focus')", "+=", "5"] } ]
+};
+```
+
+#### 示例：内联EOC
+
+```typescript
+// 内联EOC不需要type和id，直接在其他地方使用
+const inlineEoc: InlineEoc = {
+    condition: { math: ["u_val('strength') >= 10"] },
+    effect: [
+        { message: "You feel strong!" }//没有talker前缀(u_/n_)的message表示固定向主角发送消息
+    ]
+};
+```
+
 ### Math表达式
 
 Math表达式是一种EocEffect,用于EOC中的数值计算和条件判断的**文本表达式**
