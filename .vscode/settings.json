@@ -36,9 +36,6 @@
             "url": "./CustomMedia/schema/AnimeInfo.schema.json"
         },
     ],
-    "js/ts.implicitProjectConfig.target": "ES2022",
-    "js/ts.implicitProjectConfig.module": "CommonJS",
-    "typescript.tsdk": "./node_modules/typescript/lib",
     "json5.schemas": [
         {
             "fileMatch": ["Schema/src/Output/**/*.json5"],
@@ -56,5 +53,8 @@
             ],
             "url": "./Enchantment/schema/EnchJsonTable.schema.json"
         },
-    ]
+    ],
+    "js/ts.implicitProjectConfig.target": "ES2022",
+    "js/ts.implicitProjectConfig.module": "CommonJS",
+    "js/ts.tsdk": "./node_modules/typescript/lib"
 }
